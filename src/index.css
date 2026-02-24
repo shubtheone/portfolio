@@ -1,0 +1,252 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400&family=Space+Mono&display=swap');
+
+/* ─── Theme Variables ─────────────────────────────────────────────────────── */
+:root {
+  --bg-color: #0a0a0a;
+  --text-color: #f0f0f0;
+  --accent-color: #888;
+  --nav-hover: #ffffff;
+}
+
+[data-theme='light'] {
+  --bg-color: #c8d8e8;
+  --text-color: #0a1520;
+  --accent-color: #3a5060;
+  --nav-hover: #000000;
+}
+
+[data-theme='color'] {
+  --bg-color: #050d1a;
+  --text-color: #e0f0ff;
+  --accent-color: #5aa0b0;
+  --nav-hover: #b0f0ff;
+}
+
+/* ─── Reset ───────────────────────────────────────────────────────────────── */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body,
+html,
+#root {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Outfit', sans-serif;
+  transition: background-color 0.7s ease, color 0.7s ease;
+}
+
+/* ─── Noise overlay (disabled by user — opacity 0) ───────────────────────── */
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 9999;
+}
+
+/* ─── Main layout ────────────────────────────────────────────────────────── */
+.main-layout {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+}
+
+/* ─── Sidebar ─────────────────────────────────────────────────────────────── */
+.sidebar-left {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: 100vh;
+  width: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 40px;
+  border-right: 1px solid rgba(128, 128, 128, 0.15);
+  z-index: 20;
+}
+
+.vertical-text {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent-color);
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.theme-toggle {
+  cursor: pointer;
+  padding: 5px;
+  transition: color 0.4s ease, letter-spacing 0.3s ease;
+}
+
+.theme-toggle:hover {
+  color: var(--nav-hover);
+}
+
+.theme-toggle.active {
+  color: var(--nav-hover);
+  letter-spacing: 3px;
+}
+
+/* ─── Header ─────────────────────────────────────────────────────────────── */
+.header-section {
+  position: absolute;
+  top: 40px;
+  left: 70px;
+  z-index: 20;
+  animation: slideDown 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.header-name {
+  font-size: 6vw;
+  font-weight: 100;
+  letter-spacing: -2px;
+  line-height: 1;
+  color: var(--text-color);
+  transition: color 0.7s ease;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+}
+
+.header-title {
+  font-size: 13px;
+  font-weight: 200;
+  color: var(--accent-color);
+  letter-spacing: 1px;
+  margin-top: 6px;
+  transition: color 0.7s ease;
+}
+
+/* ─── Navigation ─────────────────────────────────────────────────────────── */
+.nav-menu {
+  position: absolute;
+  top: 200px;
+  left: 70px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  z-index: 20;
+  animation: slideIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.nav-item {
+  font-size: 15px;
+  font-weight: 200;
+  cursor: pointer;
+  color: var(--accent-color);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  width: fit-content;
+  letter-spacing: 0.5px;
+  user-select: none;
+}
+
+.nav-item:hover {
+  color: var(--nav-hover);
+  padding-left: 12px;
+}
+
+/* Active state — text disappears, only the dot remains */
+.nav-item.active {
+  color: transparent;
+  padding-left: 16px;
+  pointer-events: none;
+}
+
+.nav-item::before {
+  content: '●';
+  position: absolute;
+  left: 0;
+  opacity: 0;
+  font-size: 9px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: all 0.35s ease;
+  color: var(--nav-hover);
+}
+
+.nav-item:hover::before,
+.nav-item.active::before {
+  opacity: 1;
+}
+
+/* ─── Content panel ──────────────────────────────────────────────────────── */
+.content-display {
+  position: absolute;
+  right: 60px;
+  bottom: 80px;
+  max-width: 380px;
+  text-align: right;
+  z-index: 20;
+}
+
+.content-text {
+  font-size: 14px;
+  line-height: 2;
+  font-weight: 300;
+  white-space: pre-wrap;
+  color: var(--text-color);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.4);
+  animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Footer ─────────────────────────────────────────────────────────────── */
+.footer {
+  position: fixed;
+  bottom: 20px;
+  left: 60px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--accent-color);
+  z-index: 20;
+}
