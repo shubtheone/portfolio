@@ -31,7 +31,7 @@ const CameraRig = () => {
 
 // ─── Stars scattered across a flat sky dome ─────────────────────────────────
 const StarField = () => {
-    const count = 2500;
+    const count = 5000;
 
     // Stars are placed on a flat plane at z=0, spread wide
     // Various brightness via the phase attribute
@@ -40,7 +40,7 @@ const StarField = () => {
         const ph = new Float32Array(count);
         for (let i = 0; i < count; i++) {
             // Very wide spread, strictly zero depth (Z=0)
-            pos[i * 3] = (Math.random() - 0.5) * 80;  // Increased X spread
+            pos[i * 3] = (Math.random() - 0.5) * 40;  // Increased X spread
             pos[i * 3 + 1] = (Math.random() - 0.5) * 20;  // Full Y spread
             pos[i * 3 + 2] = 0;
             ph[i] = Math.random();
@@ -112,7 +112,7 @@ const ShootingStars = () => {
             period: 5 + i * 3,     // More frequent
             offset: i * 2,
             startX: -10 + i * 6,   // Wider start range
-            startY: 8 + i * 3,
+            startY: 4 + i * 3,
             speedX: 0.6 + i * 0.1,
             speedY: -(0.2 + i * 0.05),
         }));
