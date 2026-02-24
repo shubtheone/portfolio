@@ -40,7 +40,7 @@ const StarField = () => {
         const ph = new Float32Array(count);
         for (let i = 0; i < count; i++) {
             // Very wide spread, strictly zero depth (Z=0)
-            pos[i * 3] = (Math.random() - 0.5) * 40;  // Increased X spread
+            pos[i * 3] = (Math.random() - 0.5) * 80;  // Increased X spread
             pos[i * 3 + 1] = (Math.random() - 0.5) * 20;  // Full Y spread
             pos[i * 3 + 2] = 0;
             ph[i] = Math.random();
@@ -182,7 +182,6 @@ export default function BackgroundScene({ theme }: BackgroundSceneProps) {
                     d="M0,400 L0,280 L80,230 L140,260 L200,200 L280,240 L340,170 L400,220 L460,150 L520,190 L580,130 L640,180 L700,100 L760,160 L820,80 L880,150 L940,120 L1000,170 L1060,140 L1120,190 L1180,160 L1240,210 L1300,180 L1360,230 L1440,200 L1440,400 Z" />
                 <path className="mountain-front"
                     d="M0,400 L0,320 L60,300 L120,330 L180,280 L240,310 L300,250 L360,290 L420,230 L480,270 L540,200 L600,250 L660,160 L720,130 L780,180 L840,220 L900,180 L960,240 L1020,210 L1080,260 L1140,230 L1200,270 L1260,250 L1320,290 L1380,270 L1440,300 L1440,400 Z" />
-                <rect className="ground-fill" x="0" y="360" width="1440" height="40" />
             </svg>
 
             {showStars && (

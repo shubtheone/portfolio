@@ -92,7 +92,7 @@ function App() {
       </main>
 
       <footer className="footer">
-        © Shubham Pundir 2026
+        ©Blackth0rns
       </footer>
     </div>
   );
