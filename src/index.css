@@ -1034,6 +1034,128 @@ body {
 }
 
 @media (max-width: 767px) {
+  body {
+    overflow: hidden;
+  }
+
+  .loader-text {
+    font-size: 5.5vw;
+    gap: 8px;
+  }
+
+  .language-toggle {
+    top: 0.9rem;
+    right: 0.9rem;
+    padding: 5px 9px;
+    font-size: 11px;
+  }
+
+  .sidebar {
+    top: 3.8rem;
+    left: 16px;
+    width: calc(100vw - 32px);
+    height: auto;
+    border-right: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .theme-button {
+    writing-mode: horizontal-tb;
+    transform: none;
+    letter-spacing: 0.8px;
+    font-size: 12px;
+  }
+
+  .sidebar.ja .theme-button {
+    transform: none;
+    letter-spacing: 0.4px;
+  }
+
+  .header {
+    top: 6.1rem;
+    left: 16px;
+    right: 16px;
+  }
+
+  .header h1 {
+    font-size: clamp(1.6rem, 8.5vw, 2.6rem);
+    letter-spacing: -0.3px;
+  }
+
+  .header p {
+    font-size: 11px;
+    margin-top: 6px;
+  }
+
+  .navigation {
+    top: auto;
+    bottom: 10.5rem;
+    left: 16px;
+    right: 16px;
+    transform: none;
+    gap: 9px;
+    max-height: 32vh;
+    overflow-y: auto;
+    padding-right: 6px;
+  }
+
+  .nav-item {
+    font-size: 12px;
+    letter-spacing: 1.1px;
+  }
+
+  .nav-item .dot {
+    left: -14px;
+  }
+
+  .nav-item:hover,
+  .nav-item.active {
+    transform: translateX(10px);
+  }
+
+  .content-panel {
+    left: 46%;
+    right: 16px;
+    bottom: 2.8rem;
+    max-width: none;
+    text-align: left;
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+
+  .detail-side-info {
+    display: none;
+  }
+
+  .back-button {
+    top: 0.95rem;
+    left: 0.95rem;
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+
+  .footer {
+    left: 16px;
+    bottom: 14px;
+    font-size: 11px;
+  }
+
+  .mountains-container {
+    height: 42vh;
+  }
+
+  .mountains-container.detail-pov-right {
+    transform: translateX(-8%) scale(1.03);
+  }
+
+  .mountains-container.detail-pov-left {
+    transform: translateX(8%) scale(1.03);
+  }
+
   .detail-panel.mobile {
     inset: 0;
     width: 100vw;
@@ -1045,6 +1167,17 @@ body {
     top: 0;
     padding: 84px 20px 24px;
     background: rgba(5, 10, 20, 0.1);
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .detail-panel.mobile h3 {
+    font-size: 14px;
+  }
+
+  .detail-panel.mobile p {
+    font-size: 13px;
+    line-height: 1.55;
   }
 
   [data-theme="Light"] .detail-panel.mobile {
