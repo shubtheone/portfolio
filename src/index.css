@@ -1097,10 +1097,10 @@ body {
     left: 16px;
     right: 16px;
     transform: none;
-    gap: 9px;
-    max-height: 32vh;
-    overflow-y: auto;
-    padding-right: 6px;
+    gap: 8px;
+    max-height: none;
+    overflow: visible;
+    padding-right: 0;
   }
 
   .nav-item {
