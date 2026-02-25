@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from 'react';
+import { useRef, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
@@ -106,10 +106,10 @@ function TwinklingStars() {
     return (
         <points ref={points}>
             <bufferGeometry>
-                <bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} />
-                <bufferAttribute attach="attributes-size" count={count} array={sizes} itemSize={1} />
-                <bufferAttribute attach="attributes-twinkleSpeed" count={count} array={speeds} itemSize={1} />
-                <bufferAttribute attach="attributes-twinkleOffset" count={count} array={offsets} itemSize={1} />
+                <bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} args={[positions, 3]} />
+                <bufferAttribute attach="attributes-size" count={count} array={sizes} itemSize={1} args={[sizes, 1]} />
+                <bufferAttribute attach="attributes-twinkleSpeed" count={count} array={speeds} itemSize={1} args={[speeds, 1]} />
+                <bufferAttribute attach="attributes-twinkleOffset" count={count} array={offsets} itemSize={1} args={[offsets, 1]} />
             </bufferGeometry>
             <primitive object={StarsMaterial} attach="material" />
         </points>
@@ -272,7 +272,7 @@ function Snow() {
     return (
         <points ref={points}>
             <bufferGeometry>
-                <bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} />
+                <bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} args={[positions, 3]} />
             </bufferGeometry>
             {/* size: snowflake dot size (pixels). opacity: 0.6 = semi-transparent. */}
             <pointsMaterial size={2.5} color="#ffffff" transparent opacity={0.6} sizeAttenuation={true} depthWrite={false} />
@@ -283,7 +283,7 @@ function Snow() {
 // ═══════════════════════════════════════════════════════════════
 // MAIN BACKGROUND SCENE — assembles all layers
 // ═══════════════════════════════════════════════════════════════
-export default function BackgroundScene({ theme }: { theme: 'Light' | 'Dark' | 'Night' }) {
+export default function BackgroundScene({ theme: _theme }: { theme: 'Light' | 'Dark' | 'Night' }) {
     return (
         <>
             {/* Layer 1: Flat sky gradient background (CSS-driven, see index.css --sky-gradient) */}

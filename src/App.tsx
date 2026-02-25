@@ -3,21 +3,52 @@ import './index.css';
 import BackgroundScene from './components/BackgroundScene';
 
 const NAV_ITEMS = [
-  'About', 'Education', 'Skills', 'Experience', 'Projects',
+  'About', 'Education', 'Skills', 'Experience', 'Achievements', 'Projects',
   'Certifications', 'Contact', 'Writeups', 'Research'
 ];
 
-const CONTENT_DATA: Record<string, string> = {
-  About: "I am Shubham Pundir (Blackth0rns),\na cybersecurity researcher and developer.\nPassionate about offensive security,\nvulnerability research, and building\nrobust defensive systems.",
-  Education: "B.Tech in Computer Science\nFocus on Information Security\nContinuous self-learner in\nadvanced exploitation techniques.",
-  Skills: "Reverse Engineering\nWeb Application Security\nPenetration Testing\nMalware Analysis\nLanguages: Python, Go, TypeScript, C/C++",
-  Experience: "Security Researcher @ Various Bug Bounties\nDiscovered critical vulnerabilities\nin top-tier organizations.\nDeveloped custom tooling for automated\nsecurity assessments.",
-  Projects: "1. Agentic Scam Detection Honeypot\n2. CTF Solvers & Calculators\n3. Rusty Proxy Challenge\n4. Evasion Tooling",
-  Certifications: "OSCP (Offensive Security Certified Professional)\nOSWE (Offensive Security Web Expert)\nHTB Pro Labs",
-  Contact: "Email: shubham@0bscuri7y.in\nTwitter: @Blackth0rns\nGitHub: github.com/shubtheone",
+// Projects with optional URL — renders as "Name ↗" where ↗ is a clickable link
+const PROJECTS = [
+  { name: 'CTFtime Points Calculator', url: 'https://www.ctfpoints-calculator.me/' },
+  { name: 'Learning Curve', url: 'https://learning-curve.tech/about' },
+  { name: '0bscuri7y Website', url: 'https://www.0bscuri7y.in/' },
+  { name: 'th0rnRecon | Web App Scanner', url: 'https://github.com/shubtheone/th0rnRecon' },
+  { name: 'OS Contribution | Cameradar', url: 'https://github.com/shubtheone/cameradar' }
+];
+
+const CONTENT_DATA: Record<string, React.ReactNode> = {
+  About: "Hello! I am\n Shubham Pundir,\nA Researcher and Developer,\nPassionate about offensive security,\n Machine Learning, Artifical Intelligence,\n OSINT, Software development, building robust agent-based and application systems as a hobby.",
+  Education: "Bachelors in Computer Applications \nFocused on Information Security and AI\nContinuous self-learner.",
+  Skills: "Open-Source Intelligence (OSINT)\nWeb Application Security & Penetration Testing\n Software & Game Development\nMachine Learning & Aritifcial Intelligence\nPrompt Engineering & Agentic AI Frameworks\nLanguages: Python, Go, TypeScript, C/C++",
+  Experience: "Co-Founder @ 0bscuri7y\nSecurity Engineer @ Aventior\nCyber Security Intern @ NTRO\n NCIIPC–AICTE CyberSec Bootcamp @ MIT Manipal\n Data Analyst Intern @ AHS Healthcare",
+  Achievements: "Appreciated by CERT-In\n 5th rank at Pentathon 2025\nReported Critical Vuln. at SewaBharti Platform\nTeam 0bscuri7y - CTFTime Ranking in India:\n 1st (2026) & 4th(2025)",
+  Projects: (
+    <span>
+      {PROJECTS.map((p, i) => (
+        <span key={i}>
+          {p.name}
+          {p.url && (
+            <a
+              href={p.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="project-link"
+              title={p.url}
+            >
+              ↗
+            </a>
+          )}
+          {i < PROJECTS.length - 1 && '\n'}
+        </span>
+      ))}
+    </span>
+  ),
+  Certifications: "Certified AppSec Pentester (CAPen)\nWeb Application Pentesting - THM\nTryHackMe Hackfinity 2025",
+  Contact: "Email: impeccableshub@gmail.com\nTwitter: @Blackth0rns_\nGitHub: github.com/shubtheone",
   Writeups: "Regularly publishing writeups on\ncomplex CTF challenges and\nreal-world vulnerability disclosures\nat 0bscuri7y.in.",
   Research: "Focusing on AI-driven Exploitation,\nBrowser Security (V8 Internals),\nand Cloud Infrastructure Vulnerabilities."
 };
+
 
 function App() {
   const [theme, setTheme] = useState<'Light' | 'Dark' | 'Night'>('Night');
