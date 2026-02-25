@@ -1,0 +1,362 @@
+:root {
+  --primary-font: 'Outfit', sans-serif;
+  --mono-font: 'Space Mono', monospace;
+
+  --dot-color: #fff;
+  --text-color: #fff;
+  --text-muted: rgba(255, 255, 255, 0.6);
+  --header-weight: 100;
+  --bg-gradient: linear-gradient(to bottom, #01040f, #091326);
+  
+  --sky-gradient: linear-gradient(180deg, #01040f 0%, #171d3a 100%);
+  --aurora-opacity: 1;
+  --stars-opacity: 1;
+  
+  --mountain-back: #0f1525;
+  --mountain-front: #0b101c;
+  --nav-active-color: transparent;
+}
+
+[data-theme="Light"] {
+  --text-color: #111;
+  --text-muted: rgba(0, 0, 0, 0.6);
+  --dot-color: #000;
+  --bg-gradient: linear-gradient(to bottom, #e0e5ec, #f4f6f9);
+  
+  --sky-gradient: linear-gradient(180deg, #87CEEB 0%, #E0F6FF 100%);
+  --aurora-opacity: 0;
+  --stars-opacity: 0;
+  
+  --mountain-back: #c3d2df;
+  --mountain-front: #a8bcd1;
+}
+
+[data-theme="Dark"] {
+  --text-color: #fff;
+  --text-muted: rgba(255, 255, 255, 0.6);
+  --dot-color: #fff;
+  --bg-gradient: linear-gradient(to bottom, #111, #222);
+  
+  --sky-gradient: linear-gradient(180deg, #0d0d0d 0%, #1a1a1a 100%);
+  --aurora-opacity: 0;
+  --stars-opacity: 1;
+  
+  --mountain-back: #262626;
+  --mountain-front: #1a1a1a;
+}
+
+[data-theme="Night"] {
+  --text-color: #fff;
+  --text-muted: rgba(255, 255, 255, 0.6);
+  --dot-color: #fff;
+  --bg-gradient: linear-gradient(to bottom, #01040f, #091326);
+  
+  --sky-gradient: linear-gradient(180deg, #050a1f 0%, #171d3a 100%);
+  --aurora-opacity: 1;
+  --stars-opacity: 1;
+  
+  --mountain-back: #0f1525;
+  --mountain-front: #070a13;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--primary-font);
+  color: var(--text-color);
+  background: var(--bg-gradient);
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  transition: background 0.5s ease;
+}
+
+/* Loader Screen */
+.loader-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  transition: opacity 1.5s ease, visibility 1.5s;
+}
+
+.loader-container.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loader-text {
+  font-size: 2vw;
+  font-weight: 300;
+  letter-spacing: 2px;
+  display: flex;
+  gap: 12px;
+}
+
+.loader-text .bold-part {
+  font-weight: 400; /* To match "Shubham Pundir" (thin) and "Portfolio" (bold/different) inspired by Keita Yamada */
+  color: #a8a8a8;
+}
+
+/* Base App Layout */
+.app-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Background Scene Layers */
+.background-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  background: var(--sky-gradient);
+  transition: background 0.5s ease;
+}
+
+.aurora-glow {
+  position: absolute;
+  top: -20%;
+  left: 20%;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(circle, rgba(0,255,128,0.15) 0%, rgba(0,0,0,0) 60%);
+  filter: blur(80px);
+  mix-blend-mode: screen;
+  opacity: var(--aurora-opacity);
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+/* WebGL Canvas */
+.webgl-canvas-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: var(--stars-opacity);
+  transition: opacity 0.5s ease;
+}
+
+/* Mountains */
+.mountains-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 55vh;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.mountain-layer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  fill: var(--mountain-back);
+  transition: fill 0.5s ease;
+}
+
+.mountain-layer.front {
+  fill: var(--mountain-front);
+  height: 80%;
+  z-index: 1;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  z-index: 10;
+  border-right: 1px solid rgba(255, 255, 255, 0.05); /* very subtle */
+}
+[data-theme="Light"] .sidebar { border-right: 1px solid rgba(0, 0, 0, 0.05); }
+
+.theme-button {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--primary-font);
+  font-weight: 200;
+  font-size: 14px;
+  cursor: pointer;
+  letter-spacing: 2px;
+  transition: color 0.3s ease;
+}
+
+.theme-button.active,
+.theme-button:hover {
+  color: var(--text-color);
+  font-weight: 400;
+}
+
+/* Header */
+.header {
+  position: absolute;
+  top: 40px;
+  left: 70px;
+  z-index: 10;
+}
+
+.header h1 {
+  font-size: 6vw;
+  font-weight: var(--header-weight);
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.header p {
+  font-family: var(--mono-font);
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-top: 10px;
+  letter-spacing: 1px;
+}
+
+/* Navigation */
+.navigation {
+  position: absolute;
+  top: 200px;
+  left: 70px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 10;
+}
+
+.nav-item {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--primary-font);
+  font-weight: 300;
+  font-size: 18px;
+  text-align: left;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.nav-item .dot {
+  opacity: 0;
+  transform: translateX(-10px);
+  color: var(--dot-color);
+  transition: all 0.3s ease;
+  position: absolute;
+  left: -20px;
+}
+
+.nav-item:hover {
+  transform: translateX(20px);
+  color: var(--text-color);
+}
+
+.nav-item:hover .dot {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.nav-item.active {
+  transform: translateX(20px);
+  color: var(--nav-active-color); /* makes text transparent */
+  -webkit-text-stroke: 1px var(--text-color);
+}
+[data-theme="Light"] .nav-item.active {
+  color: var(--nav-active-color);
+  -webkit-text-stroke: 1px var(--text-color);
+}
+
+
+.nav-item.active .dot {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Content Panel */
+.content-panel {
+  position: absolute;
+  right: 60px;
+  bottom: 80px;
+  max-width: 380px;
+  text-align: right;
+  z-index: 10;
+  font-family: var(--mono-font);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-color);
+}
+
+.content-panel p {
+  white-space: pre-wrap;
+  animation: fadeUp 0.6s ease forwards;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Footer */
+.footer {
+  position: fixed;
+  bottom: 20px;
+  left: 60px;
+  font-family: var(--mono-font);
+  font-size: 12px;
+  color: var(--text-muted);
+  z-index: 10;
+}
+
+/* Noise Overlay */
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  background: url('data:image/svg+xml;utf8,%3svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3e%3filter id="noiseFilter"%3e%3feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3e%3/filter%3e%3rect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3e%3/svg%3e');
+  opacity: 0;
+  z-index: 20;
+}
