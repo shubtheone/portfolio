@@ -70,7 +70,29 @@ function App() {
       </div>
 
       {/* Navigation */}
-      <div className="navigation">
+      <div
+        className="navigation"
+        onWheel={(e) => {
+          const now = Date.now();
+          // Adding a 150ms cooldown so it doesn't skip too many items at once
+          if (now - (window as any).lastNavScroll > 150 || !(window as any).lastNavScroll) {
+            (window as any).lastNavScroll = now;
+            const currentIndex = NAV_ITEMS.indexOf(activeTab);
+            if (e.deltaY > 0 && currentIndex < NAV_ITEMS.length - 1) {
+              setActiveTab(NAV_ITEMS[currentIndex + 1]);
+            } else if (e.deltaY < 0 && currentIndex > 0) {
+              setActiveTab(NAV_ITEMS[currentIndex - 1]);
+            }
+          }
+        }}
+        onMouseEnter={() => {
+          // Prevent default page scroll when hovering menu to solely change tabs
+          document.body.style.overflow = 'hidden';
+        }}
+        onMouseLeave={() => {
+          document.body.style.overflow = 'hidden'; // Keep global hidden
+        }}
+      >
         {NAV_ITEMS.map(item => (
           <button
             key={item}
