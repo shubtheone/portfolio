@@ -121,7 +121,7 @@ function TwinklingStars() {
 // Each shooting star periodically streaks across the sky.
 // `offsetDelay` staggers multiple instances so they don't fire together.
 // ═══════════════════════════════════════════════════════════════
-function ShootingStar({ offsetDelay }: { offsetDelay: number }) {
+function ShootingStar({ offsetDelay, interval = 4, duration = 0.7 }: { offsetDelay: number; interval?: number; duration?: number }) {
     const ref = useRef<THREE.Mesh>(null);
 
     // ── Starting position ──
@@ -137,26 +137,38 @@ function ShootingStar({ offsetDelay }: { offsetDelay: number }) {
     // ── Velocity (direction + speed) ──
     // X: -300 to -500 (moves left). More negative = faster leftward.
     // Y: -200 to -300 (moves down). More negative = steeper angle.
-    const velocity = useMemo(() => new THREE.Vector3(
-        -300 - Math.random() * 200,  // Horizontal speed
-        -200 - Math.random() * 100,  // Vertical speed (downward)
-        0
-    ), []);
+    // Fixed: Passing duration to velocity to ensure "longer distance" stars move faster if needed.
+    const velocity = useMemo(() => {
+        const speedMultiplier = duration > 1 ? 1.5 : 1; // Faster for long-duration stars
+        return new THREE.Vector3(
+            (-300 - Math.random() * 200) * speedMultiplier,
+            (-200 - Math.random() * 100) * speedMultiplier,
+            0
+        );
+    }, [duration]);
 
     useFrame((state) => {
         if (ref.current) {
             // ── Timing ──
-            // 4 = cycle period in seconds. The star reappears every 4 seconds.
-            // Increase for less frequent shooting stars.
-            const t = (state.clock.elapsedTime + offsetDelay) % 4;
+            const t = (state.clock.elapsedTime + offsetDelay) % interval;
 
-            // ── Visibility window ──
-            // 0.5 = how long (in seconds) the star is visible per cycle.
-            // Increase to make the streak last longer.
-            if (t < 0.5) {
+            const visibleDuration = duration; // How long the star is visible
+
+            // ── Visibility & Fade Out ──
+            if (t < visibleDuration) {
                 ref.current.position.copy(startPos).addScaledVector(velocity, t);
                 ref.current.scale.setLength(1 + t * 10); // Grows as it streaks
                 ref.current.visible = true;
+
+                // ── Fade Out Logic ──
+                // Starts fading at 50% of its visible duration.
+                // Final opacity is 0.9 (max) fading to 0.0.
+                const fadeStart = visibleDuration * 0.5;
+                const opacity = t < fadeStart
+                    ? 0.9
+                    : 0.9 * (1 - (t - fadeStart) / (visibleDuration - fadeStart));
+
+                (ref.current.material as THREE.MeshBasicMaterial).opacity = opacity;
             } else {
                 ref.current.visible = false;
             }
@@ -168,7 +180,7 @@ function ShootingStar({ offsetDelay }: { offsetDelay: number }) {
             {/* args={[radius, widthSegments, heightSegments]} — controls shooting star dot size */}
             <sphereGeometry args={[1, 16, 16]} />
             {/* opacity: 0.8 = brightness of the shooting star. 1.0 = fully opaque. */}
-            <meshBasicMaterial color="#ffffff" transparent opacity={0.8} />
+            <meshBasicMaterial color="#ffffff" transparent opacity={0.9} />
         </mesh>
     );
 }
@@ -224,7 +236,7 @@ function CameraRig() {
 // Gentle falling snowflakes with slight horizontal sway.
 // ═══════════════════════════════════════════════════════════════
 function Snow() {
-    const count = 8000; // ← Number of snowflakes. More = denser snow.
+    const count = 16000; // ← Number of snowflakes. More = denser snow.
     const points = useRef<THREE.Points>(null);
 
     const [positions, speeds] = useMemo(() => {
@@ -233,7 +245,7 @@ function Snow() {
         for (let i = 0; i < count; i++) {
             // ── Snowflake spread ──
             // 2000 = spread range. Same concept as star spread.
-            pos[i * 3] = (Math.random() - 0.5) * 1000;     // X spread
+            pos[i * 3] = (Math.random() - 0.5) * 600;     // X spread
             pos[i * 3 + 1] = Math.random() * 1000 - 500;   // Y (start randomly across full height)
             pos[i * 3 + 2] = (Math.random() - 0.5) * 2000;  // Z depth
 
@@ -304,6 +316,8 @@ export default function BackgroundScene({ theme: _theme }: { theme: 'Light' | 'D
                     <ShootingStar offsetDelay={0} />
                     <ShootingStar offsetDelay={1.3} />
                     <ShootingStar offsetDelay={3.1} />
+                    {/* The "Long Distance" Star: Higher duration (1.8s) and 4.7s interval */}
+                    <ShootingStar offsetDelay={2.5} interval={4.7} duration={1.8} />
                     <CameraRig />
                 </Canvas>
             </div>

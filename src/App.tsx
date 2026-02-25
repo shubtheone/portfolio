@@ -16,8 +16,22 @@ const PROJECTS = [
   { name: 'OS Contribution | Cameradar', url: 'https://github.com/shubtheone/cameradar' }
 ];
 
+// Social links for Contact section
+const SOCIAL_LINKS = [
+  { label: 'Email', value: 'Me', url: 'mailto:impeccableshub@gmail.com' },
+  { label: 'Twitter', value: '@Blackth0rns_', url: 'https://twitter.com/Blackth0rns_' },
+  { label: 'GitHub', value: 'shubtheone', url: 'https://github.com/shubtheone' },
+  { label: 'LinkedIn', value: 'shub', url: 'https://www.linkedin.com/in/shubhampundir/' }
+];
+
+// Writeups links
+const WRITEUPS = [
+  { name: 'Medium', url: 'https://medium.com/@blackth0rns/' },
+  { name: '0bscuri7y Writeups', url: 'https://writeups.shubtheone.xyz/' },
+];
+
 const CONTENT_DATA: Record<string, React.ReactNode> = {
-  About: "Hello! I am\n Shubham Pundir,\nA Researcher and Developer,\nPassionate about offensive security,\n Machine Learning, Artifical Intelligence,\n OSINT, Software development, building robust agent-based and application systems as a hobby.",
+  About: "Hello! I am\n Shubham Pundir,\nI love mountains and stars.\nA Researcher and Developer,\nPassionate about offensive security,\n Machine Learning, Artifical Intelligence,\n OSINT, Software development, building robust agent-based and application systems as a hobby.",
   Education: "Bachelors in Computer Applications \nFocused on Information Security and AI\nContinuous self-learner.",
   Skills: "Open-Source Intelligence (OSINT)\nWeb Application Security & Penetration Testing\n Software & Game Development\nMachine Learning & Aritifcial Intelligence\nPrompt Engineering & Agentic AI Frameworks\nLanguages: Python, Go, TypeScript, C/C++",
   Experience: "Co-Founder @ 0bscuri7y\nSecurity Engineer @ Aventior\nCyber Security Intern @ NTRO\n NCIIPC–AICTE CyberSec Bootcamp @ MIT Manipal\n Data Analyst Intern @ AHS Healthcare",
@@ -44,9 +58,45 @@ const CONTENT_DATA: Record<string, React.ReactNode> = {
     </span>
   ),
   Certifications: "Certified AppSec Pentester (CAPen)\nWeb Application Pentesting - THM\nTryHackMe Hackfinity 2025",
-  Contact: "Email: impeccableshub@gmail.com\nTwitter: @Blackth0rns_\nGitHub: github.com/shubtheone",
-  Writeups: "Regularly publishing writeups on\ncomplex CTF challenges and\nreal-world vulnerability disclosures\nat 0bscuri7y.in.",
-  Research: "Focusing on AI-driven Exploitation,\nBrowser Security (V8 Internals),\nand Cloud Infrastructure Vulnerabilities."
+  Contact: (
+    <span>
+      {SOCIAL_LINKS.map((s, i) => (
+        <span key={i}>
+          {s.label}: {s.value}
+          <a
+            href={s.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="project-link"
+            title={s.url}
+          >
+            ↗
+          </a>
+          {i < SOCIAL_LINKS.length - 1 && '\n'}
+        </span>
+      ))}
+    </span>
+  ),
+  Writeups: (
+    <span>
+      {WRITEUPS.map((w, i) => (
+        <span key={i}>
+          {w.name}
+          <a
+            href={w.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="project-link"
+            title={w.url}
+          >
+            ↗
+          </a>
+          {i < WRITEUPS.length - 1 && '\n'}
+        </span>
+      ))}
+    </span>
+  ),
+  Research: "Role of Artificial Intelligence in Recruitment Process\n Also Currently Working on some Researches.."
 };
 
 
@@ -97,7 +147,7 @@ function App() {
       {/* Header */}
       <div className="header">
         <h1>SHUBHAM PUNDIR</h1>
-        <p>Security Researcher & Developer</p>
+        <p>Researcher & Developer</p>
       </div>
 
       {/* Navigation */}
@@ -143,7 +193,7 @@ function App() {
 
       {/* Footer */}
       <div className="footer">
-        ©Blackth0rns
+        shub
       </div>
     </div>
   );
