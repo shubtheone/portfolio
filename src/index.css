@@ -7,11 +7,11 @@
   --text-muted: rgba(255, 255, 255, 0.6);
   --header-weight: 100;
   --bg-gradient: linear-gradient(to bottom, #01040f, #091326);
-  
+
   --sky-gradient: linear-gradient(180deg, #01040f 0%, #171d3a 100%);
   --aurora-opacity: 1;
   --stars-opacity: 1;
-  
+
   --mountain-back: #0f1525;
   --mountain-front: #0b101c;
   --nav-active-color: transparent;
@@ -22,11 +22,11 @@
   --text-muted: rgba(0, 0, 0, 0.6);
   --dot-color: #000;
   --bg-gradient: linear-gradient(to bottom, #e0e5ec, #f4f6f9);
-  
+
   --sky-gradient: linear-gradient(180deg, #87CEEB 0%, #E0F6FF 100%);
   --aurora-opacity: 0;
   --stars-opacity: 0;
-  
+
   --mountain-back: #c3d2df;
   --mountain-front: #a8bcd1;
 }
@@ -36,11 +36,11 @@
   --text-muted: rgba(255, 255, 255, 0.6);
   --dot-color: #fff;
   --bg-gradient: linear-gradient(to bottom, #111, #222);
-  
+
   --sky-gradient: linear-gradient(180deg, #0d0d0d 0%, #1a1a1a 100%);
   --aurora-opacity: 0;
   --stars-opacity: 1;
-  
+
   --mountain-back: #262626;
   --mountain-front: #1a1a1a;
 }
@@ -50,11 +50,11 @@
   --text-muted: rgba(255, 255, 255, 0.6);
   --dot-color: #fff;
   --bg-gradient: linear-gradient(to bottom, #01040f, #091326);
-  
+
   --sky-gradient: linear-gradient(180deg, #050a1f 0%, #171d3a 100%);
   --aurora-opacity: 1;
   --stars-opacity: 1;
-  
+
   --mountain-back: #0f1525;
   --mountain-front: #070a13;
 }
@@ -106,7 +106,8 @@ body {
 }
 
 .loader-text .bold-part {
-  font-weight: 400; /* To match "Shubham Pundir" (thin) and "Portfolio" (bold/different) inspired by Keita Yamada */
+  font-weight: 400;
+  /* To match "Shubham Pundir" (thin) and "Portfolio" (bold/different) inspired by Keita Yamada */
   color: #a8a8a8;
 }
 
@@ -136,7 +137,7 @@ body {
   left: 20%;
   width: 60%;
   height: 60%;
-  background: radial-gradient(circle, rgba(0,255,128,0.15) 0%, rgba(0,0,0,0) 60%);
+  background: radial-gradient(circle, rgba(0, 255, 128, 0.15) 0%, rgba(0, 0, 0, 0) 60%);
   filter: blur(80px);
   mix-blend-mode: screen;
   opacity: var(--aurora-opacity);
@@ -197,9 +198,13 @@ body {
   justify-content: center;
   gap: 60px;
   z-index: 10;
-  border-right: 1px solid rgba(255, 255, 255, 0.05); /* very subtle */
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  /* very subtle */
 }
-[data-theme="Light"] .sidebar { border-right: 1px solid rgba(0, 0, 0, 0.05); }
+
+[data-theme="Light"] .sidebar {
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+}
 
 .theme-button {
   writing-mode: vertical-rl;
@@ -247,11 +252,12 @@ body {
 /* Navigation */
 .navigation {
   position: absolute;
-  top: 200px;
+  top: 50%;
+  transform: translateY(-50%);
   left: 70px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
   z-index: 10;
 }
 
@@ -260,8 +266,8 @@ body {
   border: none;
   color: var(--text-muted);
   font-family: var(--primary-font);
-  font-weight: 300;
-  font-size: 18px;
+  font-weight: 200;
+  font-size: 16px;
   text-align: left;
   cursor: pointer;
   position: relative;
@@ -269,7 +275,7 @@ body {
   display: flex;
   align-items: center;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 2px;
 }
 
 .nav-item .dot {
@@ -279,6 +285,10 @@ body {
   transition: all 0.3s ease;
   position: absolute;
   left: -20px;
+}
+
+.nav-item .nav-text {
+  transition: opacity 0.3s ease;
 }
 
 .nav-item:hover {
@@ -293,14 +303,12 @@ body {
 
 .nav-item.active {
   transform: translateX(20px);
-  color: var(--nav-active-color); /* makes text transparent */
-  -webkit-text-stroke: 1px var(--text-color);
-}
-[data-theme="Light"] .nav-item.active {
-  color: var(--nav-active-color);
-  -webkit-text-stroke: 1px var(--text-color);
 }
 
+.nav-item.active .nav-text {
+  opacity: 0;
+  pointer-events: none;
+}
 
 .nav-item.active .dot {
   opacity: 1;
@@ -331,6 +339,7 @@ body {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

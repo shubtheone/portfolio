@@ -3,7 +3,7 @@ import './index.css';
 import BackgroundScene from './components/BackgroundScene';
 
 const NAV_ITEMS = [
-  'About', 'Education', 'Skills', 'Experience', 'Projects', 
+  'About', 'Education', 'Skills', 'Experience', 'Projects',
   'Certifications', 'Contact', 'Writeups', 'Research'
 ];
 
@@ -40,7 +40,7 @@ function App() {
       {/* Loader */}
       <div className={`loader-container ${!loading ? 'hidden' : ''}`}>
         <div className="loader-text">
-          <span style={{fontWeight: 100}}>Shubham Pundir</span>
+          <span style={{ fontWeight: 100 }}>Shubham Pundir</span>
           <span className="bold-part">Portfolio</span>
         </div>
       </div>
@@ -53,7 +53,7 @@ function App() {
       {/* Left Sidebar */}
       <div className="sidebar">
         {['Light', 'Dark', 'Night'].map(t => (
-          <button 
+          <button
             key={t}
             className={`theme-button ${theme === t ? 'active' : ''}`}
             onClick={() => setTheme(t as any)}
@@ -72,13 +72,13 @@ function App() {
       {/* Navigation */}
       <div className="navigation">
         {NAV_ITEMS.map(item => (
-          <button 
+          <button
             key={item}
             className={`nav-item ${activeTab === item ? 'active' : ''}`}
             onClick={() => setActiveTab(item)}
           >
             <span className="dot">●</span>
-            {item}
+            <span className="nav-text">{item}</span>
           </button>
         ))}
       </div>
