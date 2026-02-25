@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './index.css';
 import BackgroundScene from './components/BackgroundScene';
 
@@ -99,11 +99,203 @@ const CONTENT_DATA: Record<string, React.ReactNode> = {
   Research: "Role of Artificial Intelligence in Recruitment Process\n Also Currently Working on some Researches.."
 };
 
+const DETAIL_DATA: Record<string, React.ReactNode> = {
+  About: (
+    <>
+
+      <p>
+        I am Shubham Pundir, a researcher and developer focused on offensive security, OSINT,
+        and building practical systems with AI.
+      </p>
+      <p>
+        I enjoy solving hard problems, writing clean tooling for real-world security workflows,
+        and balancing technical depth with creative execution.
+      </p>
+      <p>
+        Outside work, mountains and night skies keep me grounded—they are a major source of
+        the calm and curiosity that drive my long-term research mindset.
+      </p>
+    </>
+  ),
+  Education: (
+    <>
+      <h3>Education</h3>
+      <p>
+        <strong>Bachelor of Computer Applications</strong> — Information Security and AI track.
+      </p>
+      <p>
+        Academic focus included secure software design, networking fundamentals, and applied
+        machine learning concepts.
+      </p>
+      <p>
+        Self-learning continues through CTF practice, vulnerability research, open-source
+        contributions, and technical writing.
+      </p>
+    </>
+  ),
+  Skills: (
+    <>
+      <h3>Skills</h3>
+      <p><strong>Security:</strong> Web app testing, recon automation, vulnerability analysis, OSINT.</p>
+      <p><strong>Engineering:</strong> Python, Go, TypeScript, C/C++, automation pipelines, scripting.</p>
+      <p><strong>AI/ML:</strong> Prompt engineering, agentic workflows, model-assisted tooling.</p>
+      <p><strong>Tools:</strong> Burp, Nmap, custom scanners, Git/GitHub, Linux-first workflows.</p>
+    </>
+  ),
+  Experience: (
+    <>
+      <h3>Experience</h3>
+      <p><strong>Co-Founder, 0bscuri7y</strong> — built team workflows, challenge pipelines, and public-facing security initiatives.</p>
+      <p><strong>Security Engineer, Aventior</strong> — participated in assessments and security validation engagements.</p>
+      <p><strong>Cyber Security Intern, NTRO</strong> — exposure to structured security operations and defensive analysis.</p>
+      <p><strong>NCIIPC–AICTE CyberSec Bootcamp, MIT Manipal</strong> — hands-on labs and practical security drills.</p>
+      <p><strong>Data Analyst Intern, AHS Healthcare</strong> — analytical reporting and data-backed decision support.</p>
+    </>
+  ),
+  Achievements: (
+    <>
+      <h3>Achievements</h3>
+      <p><strong>Recognized by CERT-In</strong> for impactful security reporting and responsible disclosure.</p>
+      <p><strong>Pentathon 2025:</strong> secured 5th rank through multi-domain practical challenge solving.</p>
+      <p><strong>SewaBharti platform:</strong> reported critical vulnerability with clear remediation context.</p>
+      <p><strong>CTFTime India ranking:</strong> Team 0bscuri7y placed 4th (2025) and 1st (2026).</p>
+    </>
+  ),
+  Projects: (
+    <>
+      <h3>Projects</h3>
+      {PROJECTS.map((p, i) => (
+        <p key={i}>
+          <strong>{p.name}</strong> — designed and shipped with practical utility and measurable outcomes.
+          <a
+            href={p.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="project-link"
+            title={p.url}
+          >
+            ↗
+          </a>
+        </p>
+      ))}
+    </>
+  ),
+  Certifications: (
+    <>
+      <h3>Certifications</h3>
+      <p><strong>Certified AppSec Pentester (CAPen)</strong> — application security testing workflow and exploitation methodology.</p>
+      <p><strong>Web Application Pentesting (THM)</strong> — practical offensive testing and reporting.</p>
+      <p><strong>TryHackMe Hackfinity 2025</strong> — applied security tasks across multiple challenge domains.</p>
+    </>
+  ),
+  Contact: (
+    <>
+      <h3>Contact</h3>
+      <p>I am open to security research, engineering collaboration, and product-focused problem solving.</p>
+      {SOCIAL_LINKS.map((s, i) => (
+        <p key={i}>
+          <strong>{s.label}:</strong> {s.value}
+          <a
+            href={s.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="project-link"
+            title={s.url}
+          >
+            ↗
+          </a>
+        </p>
+      ))}
+    </>
+  ),
+  Writeups: (
+    <>
+      <h3>Writeups</h3>
+      <p>
+        I write concise, practical security content focused on reproducible methodology,
+        clear impact, and actionable remediation.
+      </p>
+      <p>
+        Topics include CTF techniques, web application testing, recon workflows,
+        and public vulnerability case studies.
+      </p>
+      {WRITEUPS.map((w, i) => (
+        <p key={i}>
+          <strong>{w.name}</strong>
+          <a
+            href={w.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="project-link"
+            title={w.url}
+          >
+            ↗
+          </a>
+        </p>
+      ))}
+    </>
+  ),
+  Research: (
+    <>
+      <h3>Research</h3>
+      <p><strong>Title:</strong> Role of Artificial Intelligence in Recruitment Process</p>
+      <p>
+        <strong>Summary:</strong> explores how AI can improve candidate screening, matching,
+        and process efficiency while preserving fairness and transparency.
+      </p>
+      <p><strong>Status:</strong> active work in progress alongside additional security-focused research threads.</p>
+    </>
+  )
+};
+
+const DETAIL_SIDEBAR_INFO: Record<string, React.ReactNode> = {
+  About: (
+    <>
+      <p>
+        I am Shubham Pundir, a researcher and developer focused on offensive security, OSINT,
+        and building practical systems with AI.
+      </p>
+      <p>
+        I enjoy solving hard problems, writing clean tooling for real-world security workflows,
+        and balancing technical depth with creative execution.
+      </p>
+      <p>
+        Outside work, mountains and night skies keep me grounded—they are a major source of
+        the calm and curiosity that drive my long-term research mindset.
+      </p>
+    </>
+  ),
+  Education: 'Academic foundation, coursework focus, and continuous self-learning path in security and AI.',
+  Skills: 'Capability map across security, engineering, and AI with practical tool depth and delivery strength.',
+  Experience: 'Role-based contributions, operational exposure, and measurable impact across different teams.',
+  Achievements: 'Recognition, rankings, and disclosed findings with context and real-world security value.',
+  Projects: 'Built products and tools with clear scope, stack choices, and useful outcomes.',
+  Certifications: 'Verified training milestones, issuers, and applied security competencies.',
+  Contact: 'Direct collaboration channels for research, engineering work, and opportunities.',
+  Writeups: 'Public writing focus, methodology style, and topics covered across security domains.',
+  Research: 'Ongoing research direction, abstract-level summary, and current status.'
+};
+
 
 function App() {
   const [theme, setTheme] = useState<'Light' | 'Dark' | 'Night'>('Night');
   const [activeTab, setActiveTab] = useState('About');
   const [loading, setLoading] = useState(true);
+  const [detailOpen, setDetailOpen] = useState(false);
+  const [detailSection, setDetailSection] = useState<string | null>(null);
+  const [detailPanelVisible, setDetailPanelVisible] = useState(false);
+  const [cameraTransitioning, setCameraTransitioning] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  const panelShowTimer = useRef<number | null>(null);
+  const cameraDoneTimer = useRef<number | null>(null);
+  const backFadeTimer = useRef<number | null>(null);
+
+  const clearTimers = () => {
+    if (panelShowTimer.current) window.clearTimeout(panelShowTimer.current);
+    if (cameraDoneTimer.current) window.clearTimeout(cameraDoneTimer.current);
+    if (backFadeTimer.current) window.clearTimeout(backFadeTimer.current);
+  };
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -116,6 +308,61 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    return () => clearTimers();
+  }, []);
+
+  const handleOpenDetail = () => {
+    clearTimers();
+    setDetailSection(activeTab);
+    setDetailOpen(true);
+
+    if (isMobile) {
+      setDetailPanelVisible(true);
+      setCameraTransitioning(false);
+      return;
+    }
+
+    setDetailPanelVisible(false);
+    setCameraTransitioning(true);
+    panelShowTimer.current = window.setTimeout(() => {
+      setDetailPanelVisible(true);
+    }, 700);
+    cameraDoneTimer.current = window.setTimeout(() => {
+      setCameraTransitioning(false);
+    }, 1000);
+  };
+
+  const handleCloseDetail = () => {
+    if (cameraTransitioning) return;
+
+    clearTimers();
+    setDetailPanelVisible(false);
+
+    if (isMobile) {
+      setDetailOpen(false);
+      setDetailSection(null);
+      return;
+    }
+
+    setCameraTransitioning(true);
+    backFadeTimer.current = window.setTimeout(() => {
+      setDetailOpen(false);
+    }, 300);
+    cameraDoneTimer.current = window.setTimeout(() => {
+      setDetailSection(null);
+      setCameraTransitioning(false);
+    }, 1300);
+  };
+
+  const headerTitle = detailOpen ? (detailSection ?? activeTab).toLowerCase() : 'SHUBHAM PUNDIR';
+
   return (
     <div className="app-container">
       {/* Loader */}
@@ -126,7 +373,7 @@ function App() {
         </div>
       </div>
 
-      <BackgroundScene theme={theme} />
+      <BackgroundScene theme={theme} detailOpen={detailOpen} isMobile={isMobile} />
 
       {/* Noise Overlay Disabled */}
       <div className="noise-overlay"></div>
@@ -146,50 +393,79 @@ function App() {
 
       {/* Header */}
       <div className="header">
-        <h1>SHUBHAM PUNDIR</h1>
-        <p>Researcher & Developer</p>
+        <h1 key={headerTitle} className="header-title-fade">{headerTitle}</h1>
+        <p className={`header-subtitle ${detailOpen ? 'hidden' : ''}`}>Researcher & Developer</p>
       </div>
 
       {/* Navigation */}
-      <div
-        className="navigation"
-        onWheel={(e) => {
-          const now = Date.now();
-          // Adding a 150ms cooldown so it doesn't skip too many items at once
-          if (now - (window as any).lastNavScroll > 150 || !(window as any).lastNavScroll) {
-            (window as any).lastNavScroll = now;
-            const currentIndex = NAV_ITEMS.indexOf(activeTab);
-            if (e.deltaY > 0 && currentIndex < NAV_ITEMS.length - 1) {
-              setActiveTab(NAV_ITEMS[currentIndex + 1]);
-            } else if (e.deltaY < 0 && currentIndex > 0) {
-              setActiveTab(NAV_ITEMS[currentIndex - 1]);
+      {!detailOpen ? (
+        <div
+          className="navigation"
+          onWheel={(e) => {
+            const now = Date.now();
+            if (now - (window as any).lastNavScroll > 150 || !(window as any).lastNavScroll) {
+              (window as any).lastNavScroll = now;
+              const currentIndex = NAV_ITEMS.indexOf(activeTab);
+              if (e.deltaY > 0 && currentIndex < NAV_ITEMS.length - 1) {
+                setActiveTab(NAV_ITEMS[currentIndex + 1]);
+              } else if (e.deltaY < 0 && currentIndex > 0) {
+                setActiveTab(NAV_ITEMS[currentIndex - 1]);
+              }
             }
-          }
-        }}
-        onMouseEnter={() => {
-          // Prevent default page scroll when hovering menu to solely change tabs
-          document.body.style.overflow = 'hidden';
-        }}
-        onMouseLeave={() => {
-          document.body.style.overflow = 'hidden'; // Keep global hidden
-        }}
-      >
-        {NAV_ITEMS.map(item => (
-          <button
-            key={item}
-            className={`nav-item ${activeTab === item ? 'active' : ''}`}
-            onClick={() => setActiveTab(item)}
-          >
-            <span className="dot">●</span>
-            <span className="nav-text">{item}</span>
-          </button>
-        ))}
-      </div>
+          }}
+          onMouseEnter={() => {
+            document.body.style.overflow = 'hidden';
+          }}
+          onMouseLeave={() => {
+            document.body.style.overflow = 'hidden';
+          }}
+        >
+          {NAV_ITEMS.map(item => (
+            <button
+              key={item}
+              className={`nav-item ${activeTab === item ? 'active' : ''}`}
+              onClick={() => setActiveTab(item)}
+            >
+              <span className="dot">●</span>
+              <span className="nav-text">{item}</span>
+            </button>
+          ))}
+        </div>
+      ) : (
+        <div className="detail-side-info">
+          {DETAIL_SIDEBAR_INFO[detailSection ?? activeTab]}
+        </div>
+      )}
 
       {/* Content Panel */}
-      <div className="content-panel">
-        <p key={activeTab}>{CONTENT_DATA[activeTab]}</p>
+      <div className={`content-panel ${detailOpen ? 'hidden' : ''}`}>
+        <p
+          key={activeTab}
+          className={`content-summary ${detailOpen ? 'disabled' : ''}`}
+          onClick={(event) => {
+            if ((event.target as HTMLElement).closest('a')) return;
+            if (!detailOpen) handleOpenDetail();
+          }}
+        >
+          {CONTENT_DATA[activeTab]}
+        </p>
       </div>
+
+      {(detailOpen || detailSection) && detailSection && (
+        <div className={`detail-panel ${detailPanelVisible ? 'visible' : ''} ${isMobile ? 'mobile' : ''}`}>
+          {DETAIL_DATA[detailSection]}
+        </div>
+      )}
+
+      {detailOpen && (
+        <button
+          className={`back-button ${cameraTransitioning ? 'disabled' : ''}`}
+          onClick={handleCloseDetail}
+          disabled={cameraTransitioning}
+        >
+          ← Back
+        </button>
+      )}
 
       {/* Footer */}
       <div className="footer">

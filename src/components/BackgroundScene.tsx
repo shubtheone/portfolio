@@ -1,4 +1,4 @@
-import { useRef, useMemo } from 'react';
+import { useRef, useMemo, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
@@ -130,8 +130,8 @@ function ShootingStar({ offsetDelay, interval = 4, duration = 0.7 }: { offsetDel
     // Z: -500 (in the background)
     const startPos = useMemo(() => new THREE.Vector3(
         (Math.random() - 0.5) * 1000,  // X start range
-        500 + Math.random() * 300,       // Y start height
-        -500                              // Z depth (behind stars)
+        500 + Math.random() * 200,       // Y start height
+        -1000                              // Z depth (behind stars)
     ), []);
 
     // ── Velocity (direction + speed) ──
@@ -200,33 +200,62 @@ if (typeof window !== 'undefined') {
     });
 }
 
-function CameraRig() {
+function easeInOutCubic(value: number) {
+    return value < 0.5
+        ? 4 * value * value * value
+        : 1 - Math.pow(-2 * value + 2, 3) / 2;
+}
+
+function CameraRig({ detailOpen, isMobile }: { detailOpen: boolean; isMobile: boolean }) {
+    const sectionPosition = useMemo(() => new THREE.Vector3(4, 2, 14), []);
+    const sectionLookAt = useMemo(() => new THREE.Vector3(2, 1, 0), []);
+    const detailPosition = useMemo(() => new THREE.Vector3(46, 3.2, 13), []);
+    const detailLookAt = useMemo(() => new THREE.Vector3(2, 1, 0), []);
+
+    const fromPositionRef = useRef(sectionPosition.clone());
+    const fromLookAtRef = useRef(sectionLookAt.clone());
+    const targetPositionRef = useRef(sectionPosition.clone());
+    const targetLookAtRef = useRef(sectionLookAt.clone());
+    const cameraBaseRef = useRef(sectionPosition.clone());
+    const lookAtBaseRef = useRef(sectionLookAt.clone());
+    const transitionProgressRef = useRef(1);
+    const isTransitioningRef = useRef(false);
+
+    useEffect(() => {
+        const nextPosition = !isMobile && detailOpen ? detailPosition : sectionPosition;
+        const nextLookAt = !isMobile && detailOpen ? detailLookAt : sectionLookAt;
+
+        fromPositionRef.current.copy(cameraBaseRef.current);
+        fromLookAtRef.current.copy(lookAtBaseRef.current);
+        targetPositionRef.current.copy(nextPosition);
+        targetLookAtRef.current.copy(nextLookAt);
+        transitionProgressRef.current = 0;
+        isTransitioningRef.current = true;
+    }, [detailOpen, isMobile, detailPosition, detailLookAt, sectionPosition, sectionLookAt]);
+
     useFrame((state) => {
-        // ══════════════════════════════════════════════
-        // TWEAK THESE VALUES to control the parallax feel:
-        //
-        // mousePos.x * 200  → "200" = max horizontal camera drift in pixels/units.
-        //                     Lower (e.g. 50) = subtle horizontal shift.
-        //                     Higher (e.g. 400) = dramatic horizontal shift.
-        //
-        // -mousePos.y * 100 → "100" = max vertical camera drift.
-        //                     Lower (e.g. 30) = subtle vertical shift.
-        //                     Higher (e.g. 200) = dramatic vertical shift.
-        //                     The "-" inverts Y so mouse-up moves camera up.
-        //
-        // * 0.03             → SMOOTHING / EASING factor (0 to 1).
-        //                     0.01 = very slow, floaty, cinematic follow.
-        //                     0.03 = smooth and natural (current).
-        //                     0.05 = snappier, more responsive.
-        //                     0.1  = almost instant, jittery.
-        //
-        // TL;DR: To make the effect SLOWER/SUBTLER:
-        //   - Decrease 200 and 100 (less drift range)
-        //   - Decrease 0.03 (slower easing)
-        // ══════════════════════════════════════════════
-        state.camera.position.x += (mousePos.x * 20 - state.camera.position.x) * 0.03;
-        state.camera.position.y += (-mousePos.y * 10 - state.camera.position.y) * 0.03;
-        state.camera.lookAt(0, 0, -500);
+        if (isTransitioningRef.current) {
+            transitionProgressRef.current = Math.min(transitionProgressRef.current + state.clock.getDelta() / 1, 1);
+            const easedProgress = easeInOutCubic(transitionProgressRef.current);
+            cameraBaseRef.current.lerpVectors(fromPositionRef.current, targetPositionRef.current, easedProgress);
+            lookAtBaseRef.current.lerpVectors(fromLookAtRef.current, targetLookAtRef.current, easedProgress);
+
+            if (transitionProgressRef.current >= 1) {
+                isTransitioningRef.current = false;
+            }
+        } else {
+            cameraBaseRef.current.lerp(targetPositionRef.current, 0.05);
+            lookAtBaseRef.current.lerp(targetLookAtRef.current, 0.05);
+        }
+
+        const parallaxX = mousePos.x * 0.8;
+        const parallaxY = -mousePos.y * 0.45;
+        state.camera.position.set(
+            cameraBaseRef.current.x + parallaxX,
+            cameraBaseRef.current.y + parallaxY,
+            cameraBaseRef.current.z
+        );
+        state.camera.lookAt(lookAtBaseRef.current);
     });
     return null;
 }
@@ -295,7 +324,15 @@ function Snow() {
 // ═══════════════════════════════════════════════════════════════
 // MAIN BACKGROUND SCENE — assembles all layers
 // ═══════════════════════════════════════════════════════════════
-export default function BackgroundScene({ theme: _theme }: { theme: 'Light' | 'Dark' | 'Night' }) {
+export default function BackgroundScene({
+    theme: _theme,
+    detailOpen,
+    isMobile
+}: {
+    theme: 'Light' | 'Dark' | 'Night';
+    detailOpen: boolean;
+    isMobile: boolean;
+}) {
     return (
         <>
             {/* Layer 1: Flat sky gradient background (CSS-driven, see index.css --sky-gradient) */}
@@ -310,7 +347,7 @@ export default function BackgroundScene({ theme: _theme }: { theme: 'Light' | 'D
             {/* Layer 3: Stars + Shooting Stars WebGL canvas (hidden in Light theme via --stars-opacity) */}
             <div className="webgl-canvas-container">
                 {/* Camera: position=[0,0,800] means 800 units back. fov=60 is field of view angle. */}
-                <Canvas camera={{ position: [0, 0, 800], fov: 60, near: 1, far: 5000 }}>
+                <Canvas camera={{ position: [4, 2, 14], fov: 60, near: 1, far: 5000 }}>
                     <TwinklingStars />
                     {/* 3 shooting stars with staggered delays so they don't all fire at once */}
                     <ShootingStar offsetDelay={0} />
@@ -318,20 +355,20 @@ export default function BackgroundScene({ theme: _theme }: { theme: 'Light' | 'D
                     <ShootingStar offsetDelay={3.1} />
                     {/* The "Long Distance" Star: Higher duration (1.8s) and 4.7s interval */}
                     <ShootingStar offsetDelay={2.5} interval={4.7} duration={1.8} />
-                    <CameraRig />
+                    <CameraRig detailOpen={detailOpen} isMobile={isMobile} />
                 </Canvas>
             </div>
 
             {/* Layer 4: Snow canvas (only visible in Light theme via --snow-opacity in CSS) */}
             <div className="snow-canvas-container">
-                <Canvas camera={{ position: [0, 0, 800], fov: 60, near: 1, far: 5000 }}>
+                <Canvas camera={{ position: [4, 2, 14], fov: 60, near: 1, far: 5000 }}>
                     <Snow />
-                    <CameraRig />
+                    <CameraRig detailOpen={detailOpen} isMobile={isMobile} />
                 </Canvas>
             </div>
 
             {/* Layer 5: SVG mountain silhouettes anchored at bottom */}
-            <div className="mountains-container">
+            <div className={`mountains-container ${detailOpen && !isMobile ? 'detail-pov' : ''}`}>
                 {/* Back mountain — taller peaks, lighter fill (--mountain-back) */}
                 <svg viewBox="0 0 1440 400" preserveAspectRatio="none" className="mountain-layer">
                     <path d="M0,400 L0,280 L80,230 L140,260 L200,200 L280,240 L340,170 L400,220 L460,150 L520,190 L580,130 L640,180 L700,100 L760,160 L820,80 L880,150 L940,120 L1000,170 L1060,140 L1120,190 L1180,160 L1240,210 L1300,180 L1360,230 L1440,200 L1440,400 Z"></path>
