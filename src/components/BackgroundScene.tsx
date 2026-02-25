@@ -206,10 +206,19 @@ function easeInOutCubic(value: number) {
         : 1 - Math.pow(-2 * value + 2, 3) / 2;
 }
 
-function CameraRig({ detailOpen, isMobile }: { detailOpen: boolean; isMobile: boolean }) {
+function CameraRig({
+    detailOpen,
+    isMobile,
+    detailDirection
+}: {
+    detailOpen: boolean;
+    isMobile: boolean;
+    detailDirection: 'left' | 'right';
+}) {
     const sectionPosition = useMemo(() => new THREE.Vector3(4, 2, 14), []);
     const sectionLookAt = useMemo(() => new THREE.Vector3(2, 1, 0), []);
-    const detailPosition = useMemo(() => new THREE.Vector3(46, 3.2, 13), []);
+    const detailRightPosition = useMemo(() => new THREE.Vector3(46, 3.2, 13), []);
+    const detailLeftPosition = useMemo(() => new THREE.Vector3(-38, 3.2, 13), []);
     const detailLookAt = useMemo(() => new THREE.Vector3(2, 1, 0), []);
 
     const fromPositionRef = useRef(sectionPosition.clone());
@@ -222,6 +231,7 @@ function CameraRig({ detailOpen, isMobile }: { detailOpen: boolean; isMobile: bo
     const isTransitioningRef = useRef(false);
 
     useEffect(() => {
+        const detailPosition = detailDirection === 'left' ? detailLeftPosition : detailRightPosition;
         const nextPosition = !isMobile && detailOpen ? detailPosition : sectionPosition;
         const nextLookAt = !isMobile && detailOpen ? detailLookAt : sectionLookAt;
 
@@ -231,7 +241,7 @@ function CameraRig({ detailOpen, isMobile }: { detailOpen: boolean; isMobile: bo
         targetLookAtRef.current.copy(nextLookAt);
         transitionProgressRef.current = 0;
         isTransitioningRef.current = true;
-    }, [detailOpen, isMobile, detailPosition, detailLookAt, sectionPosition, sectionLookAt]);
+    }, [detailOpen, isMobile, detailDirection, detailLeftPosition, detailRightPosition, detailLookAt, sectionPosition, sectionLookAt]);
 
     useFrame((state) => {
         if (isTransitioningRef.current) {
@@ -327,11 +337,13 @@ function Snow() {
 export default function BackgroundScene({
     theme: _theme,
     detailOpen,
-    isMobile
+    isMobile,
+    detailDirection
 }: {
     theme: 'Light' | 'Dark' | 'Night';
     detailOpen: boolean;
     isMobile: boolean;
+    detailDirection: 'left' | 'right';
 }) {
     return (
         <>
@@ -355,7 +367,7 @@ export default function BackgroundScene({
                     <ShootingStar offsetDelay={3.1} />
                     {/* The "Long Distance" Star: Higher duration (1.8s) and 4.7s interval */}
                     <ShootingStar offsetDelay={2.5} interval={4.7} duration={1.8} />
-                    <CameraRig detailOpen={detailOpen} isMobile={isMobile} />
+                    <CameraRig detailOpen={detailOpen} isMobile={isMobile} detailDirection={detailDirection} />
                 </Canvas>
             </div>
 
@@ -363,12 +375,12 @@ export default function BackgroundScene({
             <div className="snow-canvas-container">
                 <Canvas camera={{ position: [4, 2, 14], fov: 60, near: 1, far: 5000 }}>
                     <Snow />
-                    <CameraRig detailOpen={detailOpen} isMobile={isMobile} />
+                    <CameraRig detailOpen={detailOpen} isMobile={isMobile} detailDirection={detailDirection} />
                 </Canvas>
             </div>
 
             {/* Layer 5: SVG mountain silhouettes anchored at bottom */}
-            <div className={`mountains-container ${detailOpen && !isMobile ? 'detail-pov' : ''}`}>
+            <div className={`mountains-container ${detailOpen && !isMobile ? (detailDirection === 'left' ? 'detail-pov-left' : 'detail-pov-right') : ''}`}>
                 {/* Back mountain — taller peaks, lighter fill (--mountain-back) */}
                 <svg viewBox="0 0 1440 400" preserveAspectRatio="none" className="mountain-layer">
                     <path d="M0,400 L0,280 L80,230 L140,260 L200,200 L280,240 L340,170 L400,220 L460,150 L520,190 L580,130 L640,180 L700,100 L760,160 L820,80 L880,150 L940,120 L1000,170 L1060,140 L1120,190 L1180,160 L1240,210 L1300,180 L1360,230 L1440,200 L1440,400 Z"></path>

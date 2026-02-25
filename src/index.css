@@ -498,16 +498,20 @@ body {
   transition: transform 1s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
-.mountains-container.detail-pov {
+.mountains-container.detail-pov-right {
   transform: translateX(-24%) scale(1.08);
+}
+
+.mountains-container.detail-pov-left {
+  transform: translateX(25%) scale(1.08);
 }
 
 /* Back mountain layer (taller peaks, further away) */
 .mountain-layer {
   position: absolute;
   bottom: 0;
-  left: -20%;
-  width: 140%;
+  left: -35%;
+  width: 170%;
   height: 100%;
   fill: var(--mountain-back);
   /* SVG fill color — controlled by theme vars */
@@ -794,10 +798,10 @@ body {
 .detail-panel {
   position: fixed;
   right: 56px;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 88px;
+  transform: none;
   width: min(42vw, 620px);
-  max-height: 66vh;
+  max-height: calc(100vh - 140px);
   overflow-y: auto;
   padding: 22px 22px 20px;
   border: 1px solid rgba(255, 255, 255, 0.16);
@@ -809,11 +813,47 @@ body {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.4s ease;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.28) transparent;
 }
 
 [data-theme="Light"] .detail-panel {
   border: 1px solid rgba(0, 0, 0, 0.12);
-  background: rgba(245, 248, 252, 0.8);
+  background: rgba(245, 248, 252, 0.1);
+  scrollbar-color: rgba(0, 0, 0, 0.32) transparent;
+}
+
+.detail-panel::-webkit-scrollbar {
+  width: 9px;
+}
+
+.detail-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.detail-panel::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.detail-panel::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.45);
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+[data-theme="Light"] .detail-panel::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+[data-theme="Light"] .detail-panel::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.42);
+  border: 2px solid transparent;
+  background-clip: content-box;
 }
 
 .detail-panel.visible {
@@ -842,10 +882,20 @@ body {
   font-weight: 400;
 }
 
+.research-separator {
+  height: 1px;
+  margin: 14px 0 16px;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+[data-theme="Light"] .research-separator {
+  background: rgba(0, 0, 0, 0.18);
+}
+
 .back-button {
   position: fixed;
-  top: 1.5rem;
-  left: 1.5rem;
+  top: 1rem;
+  left: 4rem;
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.16);
   color: var(--text-color);
@@ -951,7 +1001,7 @@ body {
     right: 0;
     top: 0;
     padding: 84px 20px 24px;
-    background: rgba(5, 10, 20, 0.84);
+    background: rgba(5, 10, 20, 0.1);
   }
 
   [data-theme="Light"] .detail-panel.mobile {
@@ -975,4 +1025,9 @@ body {
 
 .detail-side-info p {
   white-space: pre-wrap;
+  margin-bottom: 14px;
+}
+
+.detail-side-info p:last-child {
+  margin-bottom: 0;
 }

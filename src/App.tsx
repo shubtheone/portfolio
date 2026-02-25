@@ -7,6 +7,8 @@ const NAV_ITEMS = [
   'Certifications', 'Contact', 'Writeups', 'Research'
 ];
 
+const LEFT_SHIFT_TOPICS = new Set(['Contact', 'Writeups', 'Research']);
+
 // Projects with optional URL — renders as "Name ↗" where ↗ is a clickable link
 const PROJECTS = [
   { name: 'CTFtime Points Calculator', url: 'https://www.ctfpoints-calculator.me/' },
@@ -14,6 +16,55 @@ const PROJECTS = [
   { name: '0bscuri7y Website', url: 'https://www.0bscuri7y.in/' },
   { name: 'th0rnRecon | Web App Scanner', url: 'https://github.com/shubtheone/th0rnRecon' },
   { name: 'OS Contribution | Cameradar', url: 'https://github.com/shubtheone/cameradar' }
+];
+
+const PROJECT_DETAILS = [
+  {
+    name: 'CTFtime Points Calculator',
+    url: 'https://www.ctfpoints-calculator.me/',
+    description:
+      'There was no online calculator to estimate CTFtime points accurately, so I built and hosted one with React. It is now used by teams and individual players to track event impact and plan participation.',
+  },
+  {
+    name: 'Learning Curve',
+    url: 'https://learning-curve.tech/about',
+    description:
+      'A learning-focused platform created to simplify skill progression with structured resources and a cleaner user journey for learners exploring technical domains.It is more like a time table generator for remembering what to learn and when to learn.',
+  },
+  {
+    name: '0bscuri7y Website',
+    url: 'https://www.0bscuri7y.in/',
+    description:
+      'Official web presence for 0bscuri7y to showcase team work, security activity, and public-facing initiatives around CTF and research.',
+  },
+  {
+    name: 'th0rnRecon | Web App Scanner',
+    url: 'https://github.com/shubtheone/th0rnRecon',
+    description:
+      'Recon and web scanning project focused on automating repetitive discovery tasks to speed up web reconnaissance and vulnerability identification in security assessments.',
+  },
+  {
+    name: 'OS Contribution | Cameradar',
+    url: 'https://github.com/shubtheone/cameradar',
+    description:
+      'Open-source contribution effort in Cameradar repository a popular tool with almost 5k stars on github.',
+  },
+  {
+    name: 'CTFd Agent Solver',
+    description:
+      'An AI-Agent Wrapper which uses SOTA models and prompt engineering to solve challenges hosted on CTFd platforms. This is a team project. We have implemented rotor accounts system and added skills for better efficiency at solving challenges.',
+  },
+    {
+    name: 'NetraAstra',
+    description:
+      'GO and python based RTSP camera scanner and recon tool.',
+  },
+  {
+    name: 'Yomu',
+    description:
+      'A Japanese Reader App for reading light novels offline at your device. It supports 10 thousand dictionary words. Got a B in reading at JLPT N4 so decided to make this app for myself and others who like to read while travelling. (It is currently in development)',
+  },
+
 ];
 
 // Social links for Contact section
@@ -34,7 +85,7 @@ const CONTENT_DATA: Record<string, React.ReactNode> = {
   About: "Hello! I am\n Shubham Pundir,\nI love mountains and stars.\nA Researcher and Developer,\nPassionate about offensive security,\n Machine Learning, Artifical Intelligence,\n OSINT, Software development, building robust agent-based and application systems as a hobby.",
   Education: "Bachelors in Computer Applications \nFocused on Information Security and AI\nContinuous self-learner.",
   Skills: "Open-Source Intelligence (OSINT)\nWeb Application Security & Penetration Testing\n Software & Game Development\nMachine Learning & Aritifcial Intelligence\nPrompt Engineering & Agentic AI Frameworks\nLanguages: Python, Go, TypeScript, C/C++",
-  Experience: "Co-Founder @ 0bscuri7y\nSecurity Engineer @ Aventior\nCyber Security Intern @ NTRO\n NCIIPC–AICTE CyberSec Bootcamp @ MIT Manipal\n Data Analyst Intern @ AHS Healthcare",
+  Experience: "Co-Founder @ 0bscuri7y\nSecurity Engineer @ Aventior\nCyber Security Intern @ NTRO\n Data Analyst Intern @ AHS Healthcare",
   Achievements: "Appreciated by CERT-In\n 5th rank at Pentathon 2025\nReported Critical Vuln. at SewaBharti Platform\nTeam 0bscuri7y - CTFTime Ranking in India:\n 1st (2026) & 4th(2025)",
   Projects: (
     <span>
@@ -57,7 +108,7 @@ const CONTENT_DATA: Record<string, React.ReactNode> = {
       ))}
     </span>
   ),
-  Certifications: "Certified AppSec Pentester (CAPen)\nWeb Application Pentesting - THM\nTryHackMe Hackfinity 2025",
+  Certifications: "NCIIPC–AICTE CyberSec Bootcamp, MIT Manipal\nCertified AppSec Pentester (CAPen)\nWeb Application Pentesting - THM\nTryHackMe Hackfinity 2025",
   Contact: (
     <span>
       {SOCIAL_LINKS.map((s, i) => (
@@ -108,8 +159,7 @@ const DETAIL_DATA: Record<string, React.ReactNode> = {
         and building practical systems with AI.
       </p>
       <p>
-        I enjoy solving hard problems, writing clean tooling for real-world security workflows,
-        and balancing technical depth with creative execution.
+        I enjoy developing softwares and stuff. The thing about developing is you're the creator yourself. There have been many times when I felt the need of a software which didn't exist at that time I made one. Examples include CTFtime calculator, Yomu (Japanese Reader App) you can see more about it in my projects.
       </p>
       <p>
         Outside work, mountains and night skies keep me grounded—they are a major source of
@@ -119,17 +169,20 @@ const DETAIL_DATA: Record<string, React.ReactNode> = {
   ),
   Education: (
     <>
-      <h3>Education</h3>
       <p>
-        <strong>Bachelor of Computer Applications</strong> — Information Security and AI track.
+        <strong>Institute of Innovation in Technology & Management (IINTM), Janakpuri</strong>
       </p>
       <p>
-        Academic focus included secure software design, networking fundamentals, and applied
-        machine learning concepts.
+        <strong>Bachelor of Computer Applications 2023 - 2026 (BCA)</strong>
       </p>
       <p>
-        Self-learning continues through CTF practice, vulnerability research, open-source
-        contributions, and technical writing.
+        <strong>Cumulative GPA:</strong> 8.8 (Till 5th Sem)
+      </p>
+      <p>
+        Academic focus included secure software design, networking fundamentals, applied machine learning concepts and mostly yapping.
+      </p>
+      <p>
+        Self-learning continues through CTF practice, working with team, doing researches, scrolling through github repositories, and reading writeups.
       </p>
     </>
   ),
@@ -140,42 +193,51 @@ const DETAIL_DATA: Record<string, React.ReactNode> = {
       <p><strong>Engineering:</strong> Python, Go, TypeScript, C/C++, automation pipelines, scripting.</p>
       <p><strong>AI/ML:</strong> Prompt engineering, agentic workflows, model-assisted tooling.</p>
       <p><strong>Tools:</strong> Burp, Nmap, custom scanners, Git/GitHub, Linux-first workflows.</p>
+      <p><strong>Languages:</strong> English, Hindi, Japanese</p>
     </>
   ),
   Experience: (
     <>
       <h3>Experience</h3>
-      <p><strong>Co-Founder, 0bscuri7y</strong> — built team workflows, challenge pipelines, and public-facing security initiatives.</p>
-      <p><strong>Security Engineer, Aventior</strong> — participated in assessments and security validation engagements.</p>
-      <p><strong>Cyber Security Intern, NTRO</strong> — exposure to structured security operations and defensive analysis.</p>
-      <p><strong>NCIIPC–AICTE CyberSec Bootcamp, MIT Manipal</strong> — hands-on labs and practical security drills.</p>
-      <p><strong>Data Analyst Intern, AHS Healthcare</strong> — analytical reporting and data-backed decision support.</p>
+      <p><strong>Technical Intern at NTRO (National Technical Research Organization)</strong></p>
+      <p>Sept 2025 – Feb 2026</p>
+      <p>• Developed and optimized secure backend applications using Python and GO to enhance data processing efficiency.</p>
+
+      <p><strong>Co-Founder at 0bscuri7y CTF Team</strong></p>
+      <p>April 2025 – Present</p>
+      <p>• Co-founded a cybersecurity research and CTF team specializing in vulnerability analysis and applied security challenges. Ranking 4th all over India in CTFTime (2025)</p>
+
+      <p><strong>Data Analyst Intern at AHS Healthcare Ltd.</strong></p>
+      <p>Apr 2024 – Dec 2024</p>
+      <p>• Automated data visualization and analysis tasks using Python and Excel for health-related datasets.</p>
+      <p>• Developed data scraping scripts to aggregate information, facilitating data-driven decision-making</p>
     </>
   ),
   Achievements: (
     <>
-      <h3>Achievements</h3>
       <p><strong>Recognized by CERT-In</strong> for impactful security reporting and responsible disclosure.</p>
       <p><strong>Pentathon 2025:</strong> secured 5th rank through multi-domain practical challenge solving.</p>
-      <p><strong>SewaBharti platform:</strong> reported critical vulnerability with clear remediation context.</p>
-      <p><strong>CTFTime India ranking:</strong> Team 0bscuri7y placed 4th (2025) and 1st (2026).</p>
+      <p><strong>SewaBharti platform:</strong> Reported a critical vulnerability in the SewaBharti platform, gaining unauthorized admin access.</p>
+      <p><strong>CTFTime India ranking:</strong> Team 0bscuri7y placed 4th (2025) and is currently 1st (2026).</p>
     </>
   ),
   Projects: (
     <>
-      <h3>Projects</h3>
-      {PROJECTS.map((p, i) => (
+
+      {PROJECT_DETAILS.map((p, i) => (
         <p key={i}>
-          <strong>{p.name}</strong> — designed and shipped with practical utility and measurable outcomes.
-          <a
-            href={p.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="project-link"
-            title={p.url}
-          >
-            ↗
-          </a>
+          <strong>{p.name}</strong> — {p.description}
+          {p.url && (
+            <a
+              href={p.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="project-link"
+              title={p.url}
+            >
+              ↗
+            </a>
+          )}
         </p>
       ))}
     </>
@@ -183,6 +245,7 @@ const DETAIL_DATA: Record<string, React.ReactNode> = {
   Certifications: (
     <>
       <h3>Certifications</h3>
+      <p><strong>NCIIPC–AICTE CyberSec Bootcamp, MIT Manipal</strong> — hands-on labs and practical security drills.</p>
       <p><strong>Certified AppSec Pentester (CAPen)</strong> — application security testing workflow and exploitation methodology.</p>
       <p><strong>Web Application Pentesting (THM)</strong> — practical offensive testing and reporting.</p>
       <p><strong>TryHackMe Hackfinity 2025</strong> — applied security tasks across multiple challenge domains.</p>
@@ -237,13 +300,18 @@ const DETAIL_DATA: Record<string, React.ReactNode> = {
   ),
   Research: (
     <>
-      <h3>Research</h3>
-      <p><strong>Title:</strong> Role of Artificial Intelligence in Recruitment Process</p>
+      <h3>Role of Artificial Intelligence in Recruitment Process</h3>
       <p>
-        <strong>Summary:</strong> explores how AI can improve candidate screening, matching,
-        and process efficiency while preserving fairness and transparency.
+        <strong>Summary:</strong> explores how agentic AI and knowledge graphs can enhance candidate screening, skill assessment, and bias mitigation in hiring workflows.
       </p>
-      <p><strong>Status:</strong> active work in progress alongside additional security-focused research threads.</p>
+      <p><strong>Status:</strong> active work in progress.</p>
+      <div className="research-separator" />
+      <h3>Ongoing Researches</h3>
+      <p>
+        <strong>
+Currently working on some researches which I will disclose once they are ready to be disclosed.
+        </strong>
+      </p>
     </>
   )
 };
@@ -252,22 +320,22 @@ const DETAIL_SIDEBAR_INFO: Record<string, React.ReactNode> = {
   About: (
     <>
       <p>
-        I am Shubham Pundir, a researcher and developer focused on offensive security, OSINT,
-        and building practical systems with AI.
-      </p>
-      <p>
-        I enjoy solving hard problems, writing clean tooling for real-world security workflows,
-        and balancing technical depth with creative execution.
-      </p>
-      <p>
-        Outside work, mountains and night skies keep me grounded—they are a major source of
-        the calm and curiosity that drive my long-term research mindset.
+I’m someone who loves learning new things. I’ve often been told by my peers that I’m a fast learner.
+</p>
+
+<p>
+I live by the quote, “No wind is favorable if the sailor does not know which port he sails to.”
+</p>
+
+<p>
+
+I like to play all sports but football, badminton and chess are my favourites.
       </p>
     </>
   ),
-  Education: 'Academic foundation, coursework focus, and continuous self-learning path in security and AI.',
+  Education: 'Academic foundation, coursework focus, and continuous self-learning path in security, AI and technological fields.',
   Skills: 'Capability map across security, engineering, and AI with practical tool depth and delivery strength.',
-  Experience: 'Role-based contributions, operational exposure, and measurable impact across different teams.',
+  Experience: 'Role-based contributions, CTF Participation, Community Involvement and Working experience across different teams.',
   Achievements: 'Recognition, rankings, and disclosed findings with context and real-world security value.',
   Projects: 'Built products and tools with clear scope, stack choices, and useful outcomes.',
   Certifications: 'Verified training milestones, issuers, and applied security competencies.',
@@ -362,6 +430,7 @@ function App() {
   };
 
   const headerTitle = detailOpen ? (detailSection ?? activeTab).toLowerCase() : 'SHUBHAM PUNDIR';
+  const detailDirection = LEFT_SHIFT_TOPICS.has(detailSection ?? activeTab) ? 'left' : 'right';
 
   return (
     <div className="app-container">
@@ -373,7 +442,12 @@ function App() {
         </div>
       </div>
 
-      <BackgroundScene theme={theme} detailOpen={detailOpen} isMobile={isMobile} />
+      <BackgroundScene
+        theme={theme}
+        detailOpen={detailOpen}
+        isMobile={isMobile}
+        detailDirection={detailDirection}
+      />
 
       {/* Noise Overlay Disabled */}
       <div className="noise-overlay"></div>
