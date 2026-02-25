@@ -4,6 +4,11 @@ import BackgroundScene from './components/BackgroundScene';
 
 type Language = 'en' | 'ja';
 
+const STORAGE_KEYS = {
+  theme: 'portfolio:theme',
+  language: 'portfolio:language',
+} as const;
+
 const SECTION_KEYS = [
   'About', 'Education', 'Skills', 'Experience', 'Achievements', 'Projects',
   'Certifications', 'Contact', 'Writeups', 'Research'
@@ -631,9 +636,23 @@ const DETAIL_SIDEBAR_INFO_JA: Record<string, React.ReactNode> = {
 
 
 function App() {
-  const [language, setLanguage] = useState<Language>('en');
+  const [language, setLanguage] = useState<Language>(() => {
+    try {
+      const saved = window.localStorage.getItem(STORAGE_KEYS.language);
+      return saved === 'ja' || saved === 'en' ? saved : 'en';
+    } catch {
+      return 'en';
+    }
+  });
   const [languageTransitioning, setLanguageTransitioning] = useState(false);
-  const [theme, setTheme] = useState<'Light' | 'Dark' | 'Night'>('Night');
+  const [theme, setTheme] = useState<'Light' | 'Dark' | 'Night'>(() => {
+    try {
+      const saved = window.localStorage.getItem(STORAGE_KEYS.theme);
+      return saved === 'Light' || saved === 'Dark' || saved === 'Night' ? saved : 'Night';
+    } catch {
+      return 'Night';
+    }
+  });
   const [activeTab, setActiveTab] = useState('About');
   const [loading, setLoading] = useState(true);
   const [detailOpen, setDetailOpen] = useState(false);
@@ -657,6 +676,22 @@ function App() {
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(STORAGE_KEYS.theme, theme);
+    } catch {
+      // noop
+    }
+  }, [theme]);
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(STORAGE_KEYS.language, language);
+    } catch {
+      // noop
+    }
+  }, [language]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -757,7 +792,11 @@ function App() {
       <div className="noise-overlay"></div>
 
       {/* Left Sidebar */}
-      <button className="language-toggle" onClick={handleLanguageToggle}>
+      <button
+        className="language-toggle"
+        onClick={handleLanguageToggle}
+        aria-label={language === 'en' ? 'Switch language to Japanese' : 'Switch language to English'}
+      >
         {UI_LABELS[language].langToggle}
       </button>
 
@@ -768,6 +807,7 @@ function App() {
               key={themeItem}
               className={`theme-button ${theme === themeItem ? 'active' : ''}`}
               onClick={() => setTheme(themeItem)}
+              aria-label={`Set theme to ${themeItem}`}
             >
               {THEME_LABELS[language][themeItem]}
             </button>
@@ -806,6 +846,7 @@ function App() {
                 key={item}
                 className={`nav-item ${activeTab === item ? 'active' : ''}`}
                 onClick={() => setActiveTab(item)}
+                aria-label={`Open ${NAV_LABELS.en[item]} section`}
               >
                 <span className="dot">●</span>
                 <span className="nav-text">{NAV_LABELS[language][item]}</span>
