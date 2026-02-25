@@ -27,7 +27,7 @@ const SOCIAL_LINKS = [
 // Writeups links
 const WRITEUPS = [
   { name: 'Medium', url: 'https://medium.com/@blackth0rns/' },
-  { name: '0bscuri7y Writeups', url: 'https://writeups.shubtheone.xyz/' },
+  { name: 'Writeups', url: 'https://writeups.shubtheone.xyz/' },
 ];
 
 const CONTENT_DATA: Record<string, React.ReactNode> = {
