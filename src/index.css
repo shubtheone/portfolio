@@ -556,6 +556,44 @@ body {
   /* Very subtle divider line */
 }
 
+.language-toggle {
+  position: fixed;
+  top: 1.2rem;
+  right: 1.6rem;
+  z-index: 40;
+  background: rgba(10, 14, 24, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-color);
+  font-family: var(--primary-font);
+  font-size: 13px;
+  letter-spacing: 0.6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: opacity 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.language-toggle:hover {
+  background: rgba(10, 14, 24, 0.4);
+  border-color: rgba(255, 255, 255, 0.32);
+}
+
+[data-theme="Light"] .language-toggle {
+  background: rgba(245, 248, 252, 0.45);
+  border: 1px solid rgba(0, 0, 0, 0.14);
+}
+
+.ui-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  opacity: 1;
+  transition: opacity 0.26s ease;
+}
+
+.ui-layer.lang-fade {
+  opacity: 0.82;
+}
+
 [data-theme="Light"] .sidebar {
   border-right: 1px solid rgba(0, 0, 0, 0.05);
 }
@@ -578,6 +616,11 @@ body {
   transition: color 0.3s ease;
 }
 
+.sidebar.ja .theme-button {
+  transform: none;
+  letter-spacing: 0.5px;
+}
+
 .theme-button.active,
 .theme-button:hover {
   color: var(--text-color);
@@ -591,7 +634,7 @@ body {
    ═══════════════════════════════════════════════════════════════ */
 .header {
   position: absolute;
-  top: 40px;
+  top: calc(40px + 1.5rem);
   /* Distance from top edge */
   left: 70px;
   /* Distance from left (clears the 40px sidebar + padding) */
