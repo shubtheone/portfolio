@@ -288,7 +288,7 @@ const DETAIL_DATA_EN: Record<string, React.ReactNode> = {
       <p><strong>Recognized by CERT-In</strong> for impactful security reporting and responsible disclosure.</p>
       <p><strong>Pentathon 2025:</strong> secured 5th rank through multi-domain practical challenge solving.</p>
       <p><strong>SewaBharti platform:</strong> Reported a critical vulnerability in the SewaBharti platform, gaining unauthorized admin access.</p>
-      <p><strong>CTFTime India ranking:</strong> Team 0bscuri7y placed 4th (2025) and is currently 1st (2026).</p>
+      <p><strong>CTFTime India ranking:</strong> Team 0bscuri7y placed 4th (2025).</p>
     </>
   ),
   Projects: (
