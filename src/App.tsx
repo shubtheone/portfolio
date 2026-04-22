@@ -156,7 +156,7 @@ const CONTENT_DATA_EN: Record<string, React.ReactNode> = {
   Education: "Bachelors in Computer Applications \nFocused on Information Security and AI\nContinuous self-learner.",
   Skills: "Open-Source Intelligence (OSINT)\nWeb Application Security & Penetration Testing\n Software & Game Development\nMachine Learning & Aritifcial Intelligence\nPrompt Engineering & Agentic AI Frameworks\nLanguages: Python, Go, TypeScript, C/C++",
   Experience: "Co-Founder @ 0bscuri7y\nSecurity Engineer @ Aventior\nCyber Security Intern @ NTRO\n Data Analyst Intern @ AHS Healthcare",
-  Achievements: "Appreciated by CERT-In\n 5th rank at Pentathon 2025\nReported Critical Vuln. at SewaBharti Platform\nTeam 0bscuri7y - CTFTime Ranking in India:\n 1st (2026) & 4th(2025)",
+  Achievements: "Appreciated by CERT-In\n 5th rank at Pentathon 2025\nReported Critical Vuln. at SewaBharti Platform\nTeam 0bscuri7y - CTFTime Ranking in India:\n 4th(2025)",
   Projects: (
     <span>
       {PROJECTS.map((p, i) => (
